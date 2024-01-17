@@ -93,7 +93,7 @@ const CreateContact = () => {
 {
     createContactError && <div className="alert alert-dismissible alert-danger">
     <button type="button" className="btn-close" data-bs-dismiss="alert"></button>
-    <strong>Oh snap!</strong> <a href="#" className="alert-link"></a>Something went Wrong
+    <strong>Oh snap!</strong> <a href="#" className="alert-link"></a>{createContactError}
   </div>
 }
 {/* {

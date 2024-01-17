@@ -20,7 +20,7 @@ import {
     UPDATE_SPECIFIC_CONTACT_REQUEST,
     UPDATE_SPECIFIC_CONTACT_SUCCESS,
 } from "./contactTypes";
-import { useNavigate } from "react-router-dom";
+
 
 
 
@@ -42,7 +42,7 @@ export const createContactSuccess = (contact) => {
 export const createContactError = (err) => {
     return {
         type: CREATE_CONTACT_FAILURE,
-        payload: err.message
+        payload: err?.response?.data?.message
     }
 }
 
@@ -62,7 +62,7 @@ export const getContactSuccess = (contacts) => {
 export const getContactFailure = (err) => {
     return {
         type: GET_ALL_CONTACTS_FAILURE,
-        payload: err.message
+        payload: err?.response?.data?.message
     }
 }
 
@@ -85,7 +85,7 @@ export const deleteContactSuccess = (id) => {
 export const deleteContactFailure = (err) => {
     return {
         type: DELETE_CONTACT_FAILURE,
-        payload: err.message
+        payload: err?.response?.data?.message
 
     }
 }
@@ -110,7 +110,7 @@ export const getSpecificContactSuccess = (contact) => {
 export const getSpecificContactFailure = (err) => {
   return {
     type: GET_SPECIFIC_CONTACT_FAILURE,
-    payload: err.message
+    payload: err?.response?.data?.message
   }
 }
 
@@ -131,7 +131,7 @@ export const udpateSpecificContactSuccess = (contact) => {
 export const updateSpecificContactFailure = (err) => {
   return {
     type: UPDATE_SPECIFIC_CONTACT_FAILURE,
-    payload: err.message
+    payload: err?.response?.data?.message
   }
 }
 
@@ -209,6 +209,7 @@ export const createContact = (contact, navigate) => {
       console.log("here data is this : ", res?.data);
       navigate("/contact/manage")
     } catch (err) {
+      console.log("create contact error : ", err);
       dispatch(createContactError(err));
       console.log(err);
     }

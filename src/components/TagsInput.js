@@ -11,8 +11,10 @@ const TagsInput = props => {
 	}, [])
 	useEffect(()=>{
 		console.log('tags new: ',tags);
-		setTags(props.tags)
-	}, [tags, props.tags])
+		if(props.tags !== tags){
+			setTags(props.tags)
+		}
+	}, [props.tags])
 	const removeTags = indexToRemove => {
 		setTags([...tags.filter((_, index) => index !== indexToRemove)]);
 	};

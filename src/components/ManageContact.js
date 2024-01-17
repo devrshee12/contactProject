@@ -22,7 +22,7 @@ const ManageContact = () => {
 
   useEffect(() => {
     dispatch(getContacts(sortBy, sortType, limit,cPage))
-  }, [sortBy, sortType, limit, cPage])
+  }, [sortBy, sortType, limit, cPage, totalRecords])
 
 
   const handleSort = () => {

@@ -9,7 +9,14 @@ import {
     GET_ALL_CONTACTS_FAILURE,
     GET_ALL_CONTACTS_REQUEST,
     GET_ALL_CONTACTS_SUCCESS,
+    GET_SPECIFIC_CONTACT_FAILURE,
+    GET_SPECIFIC_CONTACT_REQUEST,
+    GET_SPECIFIC_CONTACT_SUCCESS,
+    UPDATE_SPECIFIC_CONTACT_FAILURE,
+    UPDATE_SPECIFIC_CONTACT_REQUEST,
+    UPDATE_SPECIFIC_CONTACT_SUCCESS,
 } from "./contactTypes";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -79,9 +86,57 @@ export const deleteContactFailure = (err) => {
     }
 }
 
+
+
+export const getSpecificContactRequest = () => {
+  return {
+    type: GET_SPECIFIC_CONTACT_REQUEST
+  }
+}
+
+
+export const getSpecificContactSuccess = (contact) => {
+  return {
+    type: GET_SPECIFIC_CONTACT_SUCCESS,
+    payload: contact
+  }
+}
+
+
+export const getSpecificContactFailure = (err) => {
+  return {
+    type: GET_SPECIFIC_CONTACT_FAILURE,
+    payload: err.message
+  }
+}
+
+export const updateSpecificContactRequest = () => {
+  return {
+    type: UPDATE_SPECIFIC_CONTACT_REQUEST
+  }
+}
+
+export const udpateSpecificContactSuccess = (contact) => {
+  return {
+    type: UPDATE_SPECIFIC_CONTACT_SUCCESS,
+    payload: contact
+  }
+}
+
+
+export const updateSpecificContactFailure = (err) => {
+  return {
+    type: UPDATE_SPECIFIC_CONTACT_FAILURE,
+    payload: err.message
+  }
+}
+
+
+
+
 // async tasks
 
-export const createContact = (contact) => {
+export const createContact = (contact, navigate) => {
   return async (dispatch) => {
     try {
       console.log("contact is : ", contact);
@@ -119,6 +174,7 @@ export const createContact = (contact) => {
 
         dispatch(createContactSuccess(res?.data?.response))
       console.log("here data is this : ", res?.data);
+      navigate("/contact/manage")
     } catch (err) {
       dispatch(createContactError(err));
       console.log(err);
@@ -208,3 +264,95 @@ export const deleteContact = (id) => {
         }
     }
 }
+
+
+
+export const getSpecificContact = (contactId) => {
+  return async(dispatch) => {
+
+    try{
+      dispatch(getSpecificContactRequest());
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/contact/view/${contactId}?brandId=143c97fd-4369-4174-a86b-1d1bee42a468`, {
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyYmY4ZmQ4NC05MWVjLTUwNDgtOWViOC1jZjJlZTlkNjZiNjQiLCJyb2xlIjoiTyIsImNsaWVudElkIjoiZWR1d2s5OXliMW91ODV3cTJsNTMzcHV2aHczcTU1M2tqeWczOHEyaiIsIm93bmVySWQiOiIyYmY4ZmQ4NC05MWVjLTUwNDgtOWViOC1jZjJlZTlkNjZiNjQiLCJpZCI6ImM2MWUxZDI3NzE3ZWQzN2UiLCJpYXQiOjE3MDQyNjc1MzksImV4cCI6MTcwOTQ1MTUzOX0.r1QvHWkHI4CO7Zo7ff6aWmhVZcuDFLsvDFu9K4_TQ5c",
+          "content-type": "application/json",
+          "sec-ch-ua": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"Windows\"",
+          "x-api-key": "NVte8b23ke6Q1oPThpFmz9fswOdQPY0C8ZzwLV3c",
+          "xclientid": "eduwk99yb1ou85wq2l533puvhw3q553kjyg38q2j",
+          "xclientsecret": "eduwk99yb1ou85wq2l533puvhw3q553kjyg38q2j",
+          "Referer": "https://review-dev.socialpilot.co/",
+          "Referrer-Policy": "strict-origin-when-cross-origin"
+        },
+        "body": null,
+        "method": "GET"
+      });
+
+      const data = await res.json()
+      dispatch(getSpecificContactSuccess(data?.response));
+
+      console.log("update data : ", data?.response);
+    }
+    catch(err){
+      dispatch(getSpecificContactFailure(err))
+      console.log(err);
+    }
+
+  }
+
+}
+
+
+
+
+export const updateSpecificContact = (contact, id, navigate) => {
+  
+  return async(dispatch) => {
+    try{
+      dispatch(updateSpecificContactRequest());
+
+      const res = await axios.put(`${process.env.REACT_APP_BACKEND_BASE_URL}/contact/update/${id}`, {
+        brandId: "143c97fd-4369-4174-a86b-1d1bee42a468",
+        email: contact.email,
+        phoneNo: contact.phoneNo,
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+        tags: contact.tags,
+        status: "active",
+        locationIds: [
+            "ec218c00-4b5a-419b-ad3c-facde3fc296d"
+        ]
+    }, 
+      {
+        headers: {
+          "accept": "application/json, text/plain, */*",
+          "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyYmY4ZmQ4NC05MWVjLTUwNDgtOWViOC1jZjJlZTlkNjZiNjQiLCJyb2xlIjoiTyIsImNsaWVudElkIjoiZWR1d2s5OXliMW91ODV3cTJsNTMzcHV2aHczcTU1M2tqeWczOHEyaiIsIm93bmVySWQiOiIyYmY4ZmQ4NC05MWVjLTUwNDgtOWViOC1jZjJlZTlkNjZiNjQiLCJpZCI6ImM2MWUxZDI3NzE3ZWQzN2UiLCJpYXQiOjE3MDQyNjc1MzksImV4cCI6MTcwOTQ1MTUzOX0.r1QvHWkHI4CO7Zo7ff6aWmhVZcuDFLsvDFu9K4_TQ5c",
+          "content-type": "application/json",
+          "sec-ch-ua": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"Windows\"",
+          "x-api-key": "NVte8b23ke6Q1oPThpFmz9fswOdQPY0C8ZzwLV3c",
+          "xclientid": "eduwk99yb1ou85wq2l533puvhw3q553kjyg38q2j",
+          "xclientsecret": "eduwk99yb1ou85wq2l533puvhw3q553kjyg38q2j",
+          "Referer": "https://review-dev.socialpilot.co/",
+          "Referrer-Policy": "strict-origin-when-cross-origin"
+        },
+      }
+      );
+
+      dispatch(udpateSpecificContactSuccess({...contact, contactId: id}));
+
+
+      navigate("/contact/manage")
+
+    }
+    catch(err){
+      dispatch(updateSpecificContactFailure(err));
+      console.log(err);
+    }
+  }
+
+}
+

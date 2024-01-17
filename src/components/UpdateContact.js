@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { ReactTags } from 'react-tag-autocomplete';
 import TagsInput from './TagsInput';
 import { useDispatch, useSelector } from 'react-redux';
-import { createContact } from '../features/contact/contactActions';
-import { Link, useNavigate } from 'react-router-dom';
+import { createContact, getSpecificContact, updateSpecificContact } from '../features/contact/contactActions';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 
 
@@ -15,32 +15,67 @@ const UpdateContact = () => {
     const [phoneNo, setPhoneNo] = useState("");
     const [tags, setTags] = useState([]);
 
+    const {contactId} = useParams();
+
     const dispatch = useDispatch();
-    const {creatingContact, createContactError} = useSelector((state) => state.contact)
+    const {updatingSpecificContact, updateSpecificError} = useSelector((state) => state.contact)
     const navigate = useNavigate();
-    
-    
+    const {specificContact, gettingSpecificContact} = useSelector((state) => state.contact);
+
+    useEffect(() => {
+      dispatch(getSpecificContact(contactId))
+
+
+      console.log("first useEffect : ", specificContact);
+      
+      
+      
+    }, [])
+
+
+    useEffect(() => {
+      console.log("here in specificContact : ", specificContact?.tags)
+      setEmail(specificContact?.email)
+      setFirstName(specificContact?.firstName)
+      setLastName(specificContact?.lastName)
+      setPhoneNo(`+${specificContact?.countryCode}${specificContact?.phoneNo}`)
+      setTags(specificContact?.tags)
+    }, [specificContact])
+
+    // useEffect(() => {
+    //   console.log('rendering updatecontact: ',tags);
+    // }, [tags])
 
     
 
+    
     const selectedTags = (tags) => {
         setTags(tags);
     }
 
 
-    const handleCreate = (e) => {
-        e.preventDefault();
-        dispatch(createContact({email, firstName, lastName, phoneNo, tags}));
+    
 
-        
+
+    const handleUpdate = (e) => {
+      e.preventDefault();
+      dispatch(updateSpecificContact({email, firstName, lastName, phoneNo, tags}, contactId, navigate))
     }
 
 
     
   return (
+ <>
+  {
+    !gettingSpecificContact ? 
+
     <form>
   <fieldset>
-    <legend>Create Contact</legend>
+    <div style={{display:"flex", justifyContent:"space-between"}}>
+    <legend>Update Contact</legend>
+    
+
+    </div>
     <div className="form-group">
       <label for="exampleInputFirstName1" className="form-label mt-4">First Name *</label>
       <input type="text" className="form-control" id="exampleInputFirstName1"  placeholder="Enter First Name" value={firstName} onChange={(e) => {setFirstName(e.target.value)}}/>
@@ -58,15 +93,18 @@ const UpdateContact = () => {
     </div>
     <div className="form-group">
       <label for="exampleInputPhoneNumber1" className="form-label mt-4">Phone Number *</label>
-      <input type="text" className="form-control" id="exampleInputPhoneNumber1" placeholder="Enter Phone Number" onChange={(e) => {setPhoneNo(e.target.value)}}/>
+      <input type="text" className="form-control" id="exampleInputPhoneNumber1" placeholder="Enter Phone Number" value={phoneNo} onChange={(e) => {setPhoneNo(e.target.value)}}/>
       {/* <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small> */}
     </div>
     <div className="form-group">
       <label for="exampleInputTag1" className="form-label mt-4">Enter Tags</label>
-      <TagsInput tags={[]} selectedTags={selectedTags}/>
+      <TagsInput tags={tags} selectedTags={selectedTags}/>
     </div>
+    <div style={{display:"flex", justifyContent:"space-between", width:"32%"}}>
+    <button type="button" className="btn btn-outline-primary" onClick={handleUpdate}>Save Changes</button>
+    <button type="button" className="btn btn-outline-danger" onClick={() => {navigate("/contact/manage")}}>Cancel</button>
 
-    <button type="button" className="btn btn-outline-primary" onClick={handleCreate}>Save Changes</button>
+    </div>
     
 
     
@@ -75,12 +113,12 @@ const UpdateContact = () => {
     
     </fieldset>
 
-    {creatingContact && <div className="alert alert-dismissible alert-primary">
+    {updatingSpecificContact && <div className="alert alert-dismissible alert-primary">
   <button type="button" className="btn-close" data-bs-dismiss="alert"></button>
-  <strong></strong> <a href="#" className="alert-link"></a>Creating Contact
+  <strong></strong> <a href="#" className="alert-link"></a>Updating Contact
 </div>}
 {
-    createContactError && <div className="alert alert-dismissible alert-danger">
+    updateSpecificError && <div className="alert alert-dismissible alert-danger">
     <button type="button" className="btn-close" data-bs-dismiss="alert"></button>
     <strong>Oh snap!</strong> <a href="#" className="alert-link"></a>Something went Wrong
   </div>
@@ -91,7 +129,10 @@ const UpdateContact = () => {
     <strong>Contact Created</strong> You successfully read <Link to="/contact/manage" className="alert-link">You can see here</Link>.
   </div>
 } */}
-    </form>
+    </form> : <div>Loading...</div>
+  }
+ 
+ </>
   )
 }
 

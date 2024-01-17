@@ -38,3 +38,96 @@ fetch("https://review-development-rest.socialpilot.co/contact/create/", {
   "body": "{\"brandId\":\"143c97fd-4369-4174-a86b-1d1bee42a468\",\"email\":\"devapanchhi123@gmail.com\",\"phoneNo\":\"+18295890662\",\"firstName\":\"devaaa\",\"lastName\":\"pannn\",\"tags\":[\"ab\",\"asd\"],\"locationIds\":[\"ec218c00-4b5a-419b-ad3c-facde3fc296d\"]}",
   "method": "POST"
 });
+
+
+
+delete query 
+
+fetch("https://review-development-rest.socialpilot.co/contact/delete", {
+  "headers": {
+    "accept": "application/json, text/plain, */*",
+    "accept-language": "en-US,en;q=0.9,gu;q=0.8,hi;q=0.7",
+    "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyYmY4ZmQ4NC05MWVjLTUwNDgtOWViOC1jZjJlZTlkNjZiNjQiLCJyb2xlIjoiTyIsImNsaWVudElkIjoiZWR1d2s5OXliMW91ODV3cTJsNTMzcHV2aHczcTU1M2tqeWczOHEyaiIsIm93bmVySWQiOiIyYmY4ZmQ4NC05MWVjLTUwNDgtOWViOC1jZjJlZTlkNjZiNjQiLCJpZCI6ImM2MWUxZDI3NzE3ZWQzN2UiLCJpYXQiOjE3MDQyNjc1MzksImV4cCI6MTcwOTQ1MTUzOX0.r1QvHWkHI4CO7Zo7ff6aWmhVZcuDFLsvDFu9K4_TQ5c",
+    "content-type": "application/json",
+    "sec-ch-ua": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": "\"Windows\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-site",
+    "x-api-key": "NVte8b23ke6Q1oPThpFmz9fswOdQPY0C8ZzwLV3c",
+    "xclientid": "eduwk99yb1ou85wq2l533puvhw3q553kjyg38q2j",
+    "xclientsecret": "eduwk99yb1ou85wq2l533puvhw3q553kjyg38q2j",
+    "Referer": "https://review-dev.socialpilot.co/",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+  },
+  "body": "{\"contactId\":[\"202dd6c7-c1fb-4bbe-ae19-6714b3d5b2eb\"],\"brandId\":\"143c97fd-4369-4174-a86b-1d1bee42a468\"}",
+  "method": "DELETE"
+});
+
+
+
+
+
+
+
+
+
+
+fetch("https://review-development-rest.socialpilot.co/contact/tags?brandId=143c97fd-4369-4174-a86b-1d1bee42a468", {
+  "headers": {
+    "accept": "application/json, text/plain, */*",
+    "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyYmY4ZmQ4NC05MWVjLTUwNDgtOWViOC1jZjJlZTlkNjZiNjQiLCJyb2xlIjoiTyIsImNsaWVudElkIjoiZWR1d2s5OXliMW91ODV3cTJsNTMzcHV2aHczcTU1M2tqeWczOHEyaiIsIm93bmVySWQiOiIyYmY4ZmQ4NC05MWVjLTUwNDgtOWViOC1jZjJlZTlkNjZiNjQiLCJpZCI6ImM2MWUxZDI3NzE3ZWQzN2UiLCJpYXQiOjE3MDQyNjc1MzksImV4cCI6MTcwOTQ1MTUzOX0.r1QvHWkHI4CO7Zo7ff6aWmhVZcuDFLsvDFu9K4_TQ5c",
+    "content-type": "application/json",
+    "sec-ch-ua": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": "\"Windows\"",
+    "x-api-key": "NVte8b23ke6Q1oPThpFmz9fswOdQPY0C8ZzwLV3c",
+    "xclientid": "eduwk99yb1ou85wq2l533puvhw3q553kjyg38q2j",
+    "xclientsecret": "eduwk99yb1ou85wq2l533puvhw3q553kjyg38q2j",
+    "Referer": "https://review-dev.socialpilot.co/",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+  },
+  "body": null,
+  "method": "GET"
+});
+
+
+
+fetch("https://review-development-rest.socialpilot.co/contact/view/633cd403-c9f3-4894-b6a6-399a754002e8?brandId=143c97fd-4369-4174-a86b-1d1bee42a468", {
+  "headers": {
+    "accept": "application/json, text/plain, */*",
+    "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyYmY4ZmQ4NC05MWVjLTUwNDgtOWViOC1jZjJlZTlkNjZiNjQiLCJyb2xlIjoiTyIsImNsaWVudElkIjoiZWR1d2s5OXliMW91ODV3cTJsNTMzcHV2aHczcTU1M2tqeWczOHEyaiIsIm93bmVySWQiOiIyYmY4ZmQ4NC05MWVjLTUwNDgtOWViOC1jZjJlZTlkNjZiNjQiLCJpZCI6ImM2MWUxZDI3NzE3ZWQzN2UiLCJpYXQiOjE3MDQyNjc1MzksImV4cCI6MTcwOTQ1MTUzOX0.r1QvHWkHI4CO7Zo7ff6aWmhVZcuDFLsvDFu9K4_TQ5c",
+    "content-type": "application/json",
+    "sec-ch-ua": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": "\"Windows\"",
+    "x-api-key": "NVte8b23ke6Q1oPThpFmz9fswOdQPY0C8ZzwLV3c",
+    "xclientid": "eduwk99yb1ou85wq2l533puvhw3q553kjyg38q2j",
+    "xclientsecret": "eduwk99yb1ou85wq2l533puvhw3q553kjyg38q2j",
+    "Referer": "https://review-dev.socialpilot.co/",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+  },
+  "body": null,
+  "method": "GET"
+});
+
+
+
+fetch("https://review-development-rest.socialpilot.co/contact/update/9671ed61-2b5e-4c9c-b775-1d448d92922a", {
+  "headers": {
+    "accept": "application/json, text/plain, */*",
+    "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyYmY4ZmQ4NC05MWVjLTUwNDgtOWViOC1jZjJlZTlkNjZiNjQiLCJyb2xlIjoiTyIsImNsaWVudElkIjoiZWR1d2s5OXliMW91ODV3cTJsNTMzcHV2aHczcTU1M2tqeWczOHEyaiIsIm93bmVySWQiOiIyYmY4ZmQ4NC05MWVjLTUwNDgtOWViOC1jZjJlZTlkNjZiNjQiLCJpZCI6ImM2MWUxZDI3NzE3ZWQzN2UiLCJpYXQiOjE3MDQyNjc1MzksImV4cCI6MTcwOTQ1MTUzOX0.r1QvHWkHI4CO7Zo7ff6aWmhVZcuDFLsvDFu9K4_TQ5c",
+    "content-type": "application/json",
+    "sec-ch-ua": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": "\"Windows\"",
+    "x-api-key": "NVte8b23ke6Q1oPThpFmz9fswOdQPY0C8ZzwLV3c",
+    "xclientid": "eduwk99yb1ou85wq2l533puvhw3q553kjyg38q2j",
+    "xclientsecret": "eduwk99yb1ou85wq2l533puvhw3q553kjyg38q2j",
+    "Referer": "https://review-dev.socialpilot.co/",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+  },
+  "body": "{\"brandId\":\"143c97fd-4369-4174-a86b-1d1bee42a468\",\"email\":\"devapanchhi12@gmail.com\",\"phoneNo\":\"+18295890669\",\"firstName\":\"Devarshee\",\"lastName\":\"Panchhiwalaaa\",\"tags\":[\"deva\",\"panchhi\"],\"status\":\"active\",\"locationIds\":[\"ec218c00-4b5a-419b-ad3c-facde3fc296d\"]}",
+  "method": "PUT"
+});

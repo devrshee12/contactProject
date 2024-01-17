@@ -9,6 +9,7 @@ import CreateContact from './components/CreateContact';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './features/store';
+import UpdateContact from './components/UpdateContact';
 
 
 
@@ -25,6 +26,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/contact/manage",
         element: <ManageContact/>
+      },
+      {
+        path: "/contact/update/:contactId",
+        element: <UpdateContact/>
       }
     ]
   },

@@ -12,6 +12,7 @@
 /build
 
 .env
+api.txt
 
 # misc
 .DS_Store

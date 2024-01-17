@@ -12,6 +12,10 @@ import {
     GET_SPECIFIC_CONTACT_FAILURE,
     GET_SPECIFIC_CONTACT_REQUEST,
     GET_SPECIFIC_CONTACT_SUCCESS,
+    SET_CURR_PAGE,
+    SET_PAGE_LIMIT,
+    SET_TOTAL_PAGES,
+    SET_TOTAL_RECORDS,
     UPDATE_SPECIFIC_CONTACT_FAILURE,
     UPDATE_SPECIFIC_CONTACT_REQUEST,
     UPDATE_SPECIFIC_CONTACT_SUCCESS,
@@ -132,6 +136,35 @@ export const updateSpecificContactFailure = (err) => {
 }
 
 
+export const setTotalPages = (value) => {
+  return {
+    type: SET_TOTAL_PAGES,
+    payload: value
+  }
+}
+
+export const setTotalRecords = (value) => {
+  return {
+    type: SET_TOTAL_RECORDS,
+    payload: value
+  }
+}
+
+export const setCurrPage = (value) => {
+  return {
+    type: SET_CURR_PAGE,
+    payload: value
+  }
+
+}
+
+export const setPageLimit = (value) => {
+  return {
+    type: SET_PAGE_LIMIT,
+    payload: value
+  }
+}
+
 
 
 // async tasks
@@ -182,13 +215,13 @@ export const createContact = (contact, navigate) => {
   };
 };
 
-export const getContacts = () => {
+export const getContacts = (sortBy, sortType, limit, page) => {
   return async (dispatch) => {
     try {
 
         dispatch(getContactRequest())
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/contact/list?brandId=143c97fd-4369-4174-a86b-1d1bee42a468&page=1&q=&limit=50&sort=name.ASC&createdBy=`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/contact/list?brandId=143c97fd-4369-4174-a86b-1d1bee42a468&page=${page}&q=&limit=${limit}&sort=${sortBy}.${sortType}&createdBy=`,
         {
           headers: {
             accept: "application/json, text/plain, */*",
@@ -213,7 +246,10 @@ export const getContacts = () => {
       const data = await res.json();
 
       console.log("data for contacts : ", data?.response);
-
+      dispatch(setCurrPage(data?.response?.currentPage))
+      dispatch(setPageLimit(data?.response?.pageLimit))
+      dispatch(setTotalRecords(data?.response?.totalRecords))
+      dispatch(setTotalPages(data?.response?.totalPages))
       dispatch(getContactSuccess(data?.response?.list))
     } catch (err) {
       dispatch(getContactFailure(err))
@@ -312,6 +348,7 @@ export const updateSpecificContact = (contact, id, navigate) => {
   return async(dispatch) => {
     try{
       dispatch(updateSpecificContactRequest());
+      console.log("here in dispatch update : ", contact.status);
 
       const res = await axios.put(`${process.env.REACT_APP_BACKEND_BASE_URL}/contact/update/${id}`, {
         brandId: "143c97fd-4369-4174-a86b-1d1bee42a468",
@@ -320,7 +357,8 @@ export const updateSpecificContact = (contact, id, navigate) => {
         firstName: contact.firstName,
         lastName: contact.lastName,
         tags: contact.tags,
-        status: "active",
+        // status: contact.status.charAt(0).toUpperCase + contact.status.slice(1),
+        status: contact.status,
         locationIds: [
             "ec218c00-4b5a-419b-ad3c-facde3fc296d"
         ]

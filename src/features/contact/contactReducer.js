@@ -1,4 +1,4 @@
-import { CREATE_CONTACT_FAILURE, CREATE_CONTACT_REQUEST, CREATE_CONTACT_SUCCESS, DELETE_CONTACT_FAILURE, DELETE_CONTACT_REQUEST, DELETE_CONTACT_SUCCESS, GET_ALL_CONTACTS_FAILURE, GET_ALL_CONTACTS_REQUEST, GET_ALL_CONTACTS_SUCCESS, GET_SPECIFIC_CONTACT_FAILURE, GET_SPECIFIC_CONTACT_REQUEST, GET_SPECIFIC_CONTACT_SUCCESS, UPDATE_SPECIFIC_CONTACT_FAILURE, UPDATE_SPECIFIC_CONTACT_SUCCESS, UPDATE_SPECIFIC_CONTACT_REQUEST} from "./contactTypes"
+import { CREATE_CONTACT_FAILURE, CREATE_CONTACT_REQUEST, CREATE_CONTACT_SUCCESS, DELETE_CONTACT_FAILURE, DELETE_CONTACT_REQUEST, DELETE_CONTACT_SUCCESS, GET_ALL_CONTACTS_FAILURE, GET_ALL_CONTACTS_REQUEST, GET_ALL_CONTACTS_SUCCESS, GET_SPECIFIC_CONTACT_FAILURE, GET_SPECIFIC_CONTACT_REQUEST, GET_SPECIFIC_CONTACT_SUCCESS, UPDATE_SPECIFIC_CONTACT_FAILURE, UPDATE_SPECIFIC_CONTACT_SUCCESS, UPDATE_SPECIFIC_CONTACT_REQUEST, SET_CURR_PAGE, SET_PAGE_LIMIT, SET_TOTAL_RECORDS, SET_TOTAL_PAGES} from "./contactTypes"
 
 const initalState = {
     contacts: null,
@@ -18,7 +18,13 @@ const initalState = {
 
 
     updatingSpecificContact: false,
-    updateSpecificError: null
+    updateSpecificError: null,
+
+    totalRecords: 0,
+    pageLimit: 0,
+    currPage:0,
+    totalPages: 0
+
 
 }
 
@@ -133,9 +139,26 @@ const contactReducer = (state = initalState, action) => {
                 updatingSpecificContact: false,
                 updateSpecificError: action.payload
             }
-        
-        
-        
+        case SET_TOTAL_PAGES:
+            return {
+                ...state,
+                totalPages: action.payload
+            }
+        case SET_TOTAL_RECORDS:
+            return {
+                ...state, 
+                totalRecords: action.payload
+            }
+        case SET_PAGE_LIMIT:
+            return{
+                ...state,
+                pageLimit: action.payload
+            }
+        case SET_CURR_PAGE:
+            return {
+                ...state,
+                currPage: action.payload
+            }
         default:
             return state
     }

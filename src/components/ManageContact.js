@@ -1,25 +1,48 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getContacts } from '../features/contact/contactActions';
 import DisplayContact from './DisplayContact';
+import { FaCaretDown } from "react-icons/fa";
+import { FaCaretUp } from 'react-icons/fa';
 
 
 
 const ManageContact = () => {
   const dispatch = useDispatch();
-  const {allContacts, gettingAllContacts, getContactsError} = useSelector((state) => state.contact);
+  const [sortBy, setSortBy] = useState("name");
+  const [sortType, setSortType] = useState("ASC");
+  const [cPage, setCPage] = useState(1);
+   const [limit, setLimit] = useState(15)
+
+  
+  const {allContacts, gettingAllContacts, getContactsError, totalRecords, pageLimit, currPage, totalPages} = useSelector((state) => state.contact);
   useEffect(() => {
-    dispatch(getContacts());
+    dispatch(getContacts(sortBy, sortType, limit,cPage));
   }, [])
+
+  useEffect(() => {
+    dispatch(getContacts(sortBy, sortType, limit,cPage))
+  }, [sortBy, sortType, limit, cPage])
+
+
+  const handleSort = () => {
+    if(sortType === "ASC"){
+      setSortType("DESC")
+    }
+    else{
+      setSortType("ASC");
+    }
+  }
   return (
     <>
-    <table className="table table-hover">
+    <table id="dtBasicExample" className="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
   <thead>
     <tr>
-      <th scope="col">Name</th>
+      <th scope="col" onClick={handleSort} style={{cursor:"pointer"}}>Name {(sortType === "ASC") ? <FaCaretDown/> : <FaCaretUp/>}</th>
       <th scope="col">Email</th>
       <th scope="col">Phone No.</th>
       <th scope="col">Locations</th>
+      <th scope="col">Status</th>
       <th scope="col">Tags</th>
       <th scope='col'>Actions</th>
 
@@ -34,13 +57,40 @@ const ManageContact = () => {
     </div>
     }
     
-    {!gettingAllContacts ?
+    {!gettingAllContacts && allContacts ?
       allContacts.map((contact, index) => {
         return <DisplayContact contact={contact} key={index} cName={index%2 ? "table-light" : "table-light"}/>
       }) : <div>Loading...</div>
     }  
     </tbody>
     </table>
+    <div>
+  <ul class="pagination">
+    <li class="page-item">
+      <a class={`page-link ${(cPage === 1) && "disabled"}`} href="#" onClick={() => {
+        if(cPage - 1 >= 1){
+          setCPage(cPage - 1)
+        }
+      }}>&laquo;</a>
+    </li>
+    {
+      new Array(totalPages).fill(null).map((_, i) => {
+        return (
+          <li class="page-item" onClick={() => {setCPage(i + 1)}}>
+            <a class="page-link" href="#">{i + 1}</a>
+          </li>
+        )
+      })
+    }
+    <li class={`page-item ${(cPage === totalPages) && "disabled"}`} onClick={() => {
+      if(cPage + 1 <= totalPages){
+        setCPage(cPage + 1);
+      }
+    }}>
+      <a class="page-link" href="#">&raquo;</a>
+    </li>
+  </ul>
+</div>
 
     
 

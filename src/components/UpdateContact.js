@@ -14,6 +14,7 @@ const UpdateContact = () => {
     const [email, setEmail] = useState("");
     const [phoneNo, setPhoneNo] = useState("");
     const [tags, setTags] = useState([]);
+    const [status, setStatus] = useState("active")
 
     const {contactId} = useParams();
 
@@ -40,6 +41,8 @@ const UpdateContact = () => {
       setLastName(specificContact?.lastName)
       setPhoneNo(`+${specificContact?.countryCode}${specificContact?.phoneNo}`)
       setTags(specificContact?.tags)
+      // console.log("status is : ", specificContact?.statusInfo)
+      setStatus(specificContact?.statusInfo)
     }, [specificContact])
 
     // useEffect(() => {
@@ -59,7 +62,7 @@ const UpdateContact = () => {
 
     const handleUpdate = (e) => {
       e.preventDefault();
-      dispatch(updateSpecificContact({email, firstName, lastName, phoneNo, tags}, contactId, navigate))
+      dispatch(updateSpecificContact({email, firstName, lastName, phoneNo, tags, status}, contactId, navigate))
     }
 
 
@@ -96,6 +99,29 @@ const UpdateContact = () => {
       <input type="text" className="form-control" id="exampleInputPhoneNumber1" placeholder="Enter Phone Number" value={phoneNo} onChange={(e) => {setPhoneNo(e.target.value)}}/>
       {/* <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small> */}
     </div>
+
+    <fieldset class="form-group">
+      <legend class="mt-4">Status</legend>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="active" checked={status === "active"} onChange={() => {setStatus("active")}}/>
+        <label class="form-check-label" for="optionsRadios1">
+          Active
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="unsubscribed" checked={status === "unsubscribed"} onChange={() => {setStatus("unsubscribed")}}/>
+        <label class="form-check-label" for="optionsRadios2">
+          Unsubscribed
+        </label>
+      </div>
+      <div class="form-check disabled">
+        <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios3" value="bounced" checked={status === "bounced"} onChange={() => {setStatus("bounced")}}/>
+        <label class="form-check-label" for="optionsRadios3">
+        Bounced
+        </label>
+      </div>
+    </fieldset>
+
     <div className="form-group">
       <label for="exampleInputTag1" className="form-label mt-4">Enter Tags</label>
       <TagsInput tags={tags} selectedTags={selectedTags}/>

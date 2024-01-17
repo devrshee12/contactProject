@@ -13,6 +13,8 @@ const DisplayContact = ({contact, cName}) => {
     const handleShow = () => setShow(true);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const {statusInfo: status} = contact;
+    console.log("display status is : ", status);
     
 
     const handleUpdate = () => {
@@ -27,7 +29,16 @@ const DisplayContact = ({contact, cName}) => {
       <td>{contact?.email}</td>
       <td>{contact?.phoneNo}</td>
       <td>Ahmedabad</td>
-      <td>{contact.tags.join(" ")}</td>
+      <td><span class={`badge rounded-pill bg-${(status === "active") ? "success" : (status === "unsubscribed" ? "warning":"dark")}`}>{status}</span></td>
+      <td>
+      {
+        contact.tags.map((tag) => {
+          return(
+            <span class="badge rounded-pill bg-info">{tag}</span>
+          ) 
+        })
+      }
+      </td>
       <button style={{border: "none", background: "none"}} onClick={handleUpdate}> <GoPencil style={{cursor: 'pointer'}}/></button>
       <button onClick={handleShow} style={{cursor: "pointer", border: "none", background: "none"}}><MdOutlineDelete /></button>
     </tr>

@@ -4628,6 +4628,7 @@ fieldset:disabled .btn {
   --bs-pagination-disabled-bg: transparent;
   --bs-pagination-disabled-border-color: var(--bs-border-color);
   display: flex;
+  justify-content: end;
   padding-left: 0;
   list-style: none;
 }

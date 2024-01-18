@@ -7,8 +7,8 @@ const TagsInput = props => {
 	console.log('props: ',props);
 	const [tags, setTags] = useState(props.tags);
 	useEffect(() => {
-		console.log(props.tags)
-	}, [])
+		console.log(tags)
+	})
 	useEffect(()=>{
 		console.log('tags new: ',tags);
 		if(props.tags !== tags){
@@ -16,7 +16,9 @@ const TagsInput = props => {
 		}
 	}, [props.tags])
 	const removeTags = indexToRemove => {
+		console.log("remove tags called .....")
 		setTags([...tags.filter((_, index) => index !== indexToRemove)]);
+		props.selectedTags([...tags.filter((_, index) => index !== indexToRemove)])
 	};
 	const addTags = event => {
 		if (event.target.value !== "") {

@@ -12,18 +12,26 @@ const ManageContact = () => {
   const [sortBy, setSortBy] = useState("name");
   const [sortType, setSortType] = useState("ASC");
   const [cPage, setCPage] = useState(1);
-   const [limit, setLimit] = useState(15)
+  const [limit, setLimit] = useState(15)
+  const [search, setSearch] = useState("");
 
   
   const {allContacts, gettingAllContacts, getContactsError, totalRecords, pageLimit, currPage, totalPages} = useSelector((state) => state.contact);
   useEffect(() => {
-    dispatch(getContacts(sortBy, sortType, limit,cPage));
+    dispatch(getContacts(sortBy, sortType, limit,cPage, search));
   }, [])
 
   useEffect(() => {
-    dispatch(getContacts(sortBy, sortType, limit,cPage))
+    dispatch(getContacts(sortBy, sortType, limit,cPage, search))
   }, [sortBy, sortType, limit, cPage, totalRecords])
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(getContacts(sortBy, sortType, limit,cPage, search))
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [search])
 
   const handleSort = () => {
     if(sortType === "ASC"){
@@ -35,6 +43,10 @@ const ManageContact = () => {
   }
   return (
     <>
+    <form className="d-flex" style={{width:"500px", marginTop: "20px", marginBottom: "20px"}}>
+        <input className="form-control me-sm-2" type="search" placeholder="Search" value={search} onChange={(e) => {setSearch(e.target.value)}}/>
+        {/* <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button> */}
+      </form>
     <table id="dtBasicExample" className="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
   <thead>
     <tr>

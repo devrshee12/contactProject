@@ -216,13 +216,13 @@ export const createContact = (contact, navigate) => {
   };
 };
 
-export const getContacts = (sortBy, sortType, limit, page) => {
+export const getContacts = (sortBy, sortType, limit, page, search) => {
   return async (dispatch) => {
     try {
 
         dispatch(getContactRequest())
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/contact/list?brandId=143c97fd-4369-4174-a86b-1d1bee42a468&page=${page}&q=&limit=${limit}&sort=${sortBy}.${sortType}&createdBy=`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/contact/list?brandId=143c97fd-4369-4174-a86b-1d1bee42a468&page=${page}&q=${search}&limit=${limit}&sort=${sortBy}.${sortType}&createdBy=`,
         {
           headers: {
             accept: "application/json, text/plain, */*",
